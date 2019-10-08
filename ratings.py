@@ -2,7 +2,7 @@
 def add_rating():
 
     restaraunt_name = input("Name of restaraunt: > ")
-    restaraunt_rating = input("Rating: >")
+    restaraunt_rating = input("Rating: > ")
 
     restaraunt_name = restaraunt_name.title()
 
@@ -15,6 +15,11 @@ def sort_print_resto(rating_dict):
         for restaraunt in restaraunts:
             print(f'{restaraunt} is rated at {rating_dict[restaraunt]}')
 
+def user_choice():
+    print("What would you like to do?")
+    choice = input("A) Load data, B) Add a new restaraunt, C) Quit > ")
+    return choice
+
 def read_ratings(text_file):
 
     text_file = open(text_file)
@@ -25,20 +30,20 @@ def read_ratings(text_file):
         restaraunt_rating = line.split(":")
         rating_dict[restaraunt_rating[0]] = restaraunt_rating[1]
 
-    
+    decision = user_choice()
 
-    sort_print_resto(rating_dict)
-
-    want_to_add = input("Want to add a restaraunt rating? (Y/N) > ")
-
-    if want_to_add == 'Y':
-        restaraunt_name, restaraunt_rating = add_rating()
-        rating_dict[restaraunt_name] = restaraunt_rating
-    elif want_to_add != 'N':
-        print("That's not a valid answer")
-
-
-    sort_print_resto(rating_dict)
+    while decision != 'C':
+        if decision == 'A':
+            sort_print_resto(rating_dict)
+            decision = user_choice()
+        elif decision == 'B':
+            restaraunt_name, restaraunt_rating = add_rating()
+            rating_dict[restaraunt_name] = restaraunt_rating
+            sort_print_resto(rating_dict)
+            decision = user_choice()
+        else:
+            print("Not a valid answer")
+            decision = user_choice() 
 
 
     text_file.close()
